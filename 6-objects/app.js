@@ -54,16 +54,57 @@ const libro = {
   autor: "Travis Langley",
   anio: 2016,
   estado: "disponible",
+  capitulos: [],
 
   descripcion: function () {
     return `Libro titulado ${this.titulo}, escrito por ${this.autor} en el año ${this.anio}. El estado es: ${this.estado}.`;
   },
+
+  addCap: function (newCap) {
+    this.capitulos.push(newCap);
+  },
+  popCap: function () {
+    this.capitulos.pop();
+  },
 };
 
 console.log(libro.descripcion());
-
 const cajaTexto = document.getElementById("infoLibro");
+const cajaCapitulos = document.getElementsByClassName("capitulos")[0];
 
 function imprimir() {
   cajaTexto.innerText = libro.descripcion();
+}
+function verCaps() {
+  //Limpiamos el contenido de los capítulos
+  const { capitulos } = libro;
+
+  if (capitulos.length == 0) {
+    let p = document.createElement("p");
+    p.innerHTML = "Aún no hay capítulos registrados";
+    cajaCapitulos.appendChild(p);
+  } else {
+    cajaCapitulos.innerHTML = "";
+
+    //For para mostrar los capítulos
+    for (let i = 0; i < capitulos.length; i++) {
+      //Creamos el elemento li que agregaremos
+      let li = document.createElement("li");
+      // li.id = i + 1;
+      li.innerHTML = `${i + 1}.- ${capitulos[i]}`;
+
+      //Agregamos a la caja
+      cajaCapitulos.appendChild(li);
+    }
+  }
+}
+function addCap() {
+  let cap = prompt("Ingresa el nombre del nuevo capítulo");
+  libro.addCap(cap);
+  alert("Libro agregado con éxito!");
+}
+
+function deleteCap() {
+  libro.popCap();
+  alert("Se ha eliminado el úlitmo capítulo del libro exitosamente");
 }
